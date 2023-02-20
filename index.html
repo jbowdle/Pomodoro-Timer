@@ -11,9 +11,10 @@
     <body>
         <header>
             <h1>Pomodoro Timer</h1>
-            <button>Settings</button>
-            <div id="options">
-                <div id="option-select">
+            <button id="settings-btn">Settings</button>
+            <div id="settings">
+                <div class="close-settings"></div>
+                <div id="settings-center">
                     <div class="space-between">
                         <label>Pomodoro Time:</label>
                         <select>
@@ -27,7 +28,7 @@
                             <option value="50:00">50:00</option>
                         </select>
                     </div>
-                    
+                        
                     <div class="space-between">
                         <label>Short Break Time:</label>
                         <select>
@@ -36,7 +37,7 @@
                             <option value="15:00">15:00</option> 
                         </select>
                     </div>
-                    
+                        
                     <div class="space-between">
                         <label>Long Break Time:</label>
                         <select>
@@ -47,11 +48,9 @@
                         </select>
                     </div>
                 </div>
-                
-                <div id="option-submit">
-                    <button name="submit">Submit</button>
-                </div>
+                <div class="close-settings"></div>
             </div>
+            
         </header>
         <main>
             <section id="timer-box">
