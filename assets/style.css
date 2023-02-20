@@ -1,9 +1,13 @@
 /* Color storage */
 :root {
     --bg-color: rgb(0, 0, 0);
+    --box: rgb(198, 192, 192);
     --pomo-color: rgb(245, 144, 201);
     --short-color: rgb(132, 212, 235);
     --long-color: rgb(129, 233, 164);
+    --button: rgb(222, 197, 197);
+    --button-border-bottom: rgb(117, 36, 36);;
+    --button-border-top: rgb(255, 196, 196);;
 }
 
 body {
@@ -21,6 +25,18 @@ header {
     padding: 20px 0px 20px 0px;
 }
 
+button {
+    background-color: var(--button);
+    border-top: 3px inset var(--button-border-top);
+    border-left: 3px inset var(--button-border-top);
+    border-right: 3px inset var(--button-border-bottom);
+    border-bottom: 3px inset var(--button-border-bottom);
+}
+
+#options {
+    display: none;
+}
+
 h1 {
     font-size: 200%;
 }
@@ -33,25 +49,28 @@ footer button {
 
 #timer-box {
     border: 1px solid black;
-    border-radius: 10px;
     margin: 10% 0% 5%;
-}
-
-#option-select {
-    display: grid;
-    grid-template-rows: 1fr 1fr 1fr;
-    margin: 3% 20%;
-}
-
-.space-between {
-    display: flex;
-    justify-content: space-between;
-    margin: 1% 0%;
-}
-
-#option-submit {
     text-align: center;
-    margin-bottom: 3%;
+}
+
+#timer-box p {
+    font-size: 500%;
+}
+
+#controls {
+    display: flex;
+    justify-content: space-around;
+}
+
+#begin {
+    margin: 1% 0%;
+    padding: 2%;
+}
+
+#skipback,
+#start-stop,
+#skipforward {
+    display: none;
 }
 
 #progress-box {
@@ -62,12 +81,14 @@ footer button {
 
 .box {
     border: 1px solid black;
+    background-color: var(--box);
     text-align: center;
     padding: 5% 0%;  
     margin: 1%; 
 }
 
-.pomo {
+/* Highlight classes: */
+/* .pomo {
     background-color: var(--pomo-color);
 }
 
@@ -77,4 +98,4 @@ footer button {
 
 .long {
     background-color: var(--long-color);
-}
+} */

@@ -11,11 +11,8 @@
     <body>
         <header>
             <h1>Pomodoro Timer</h1>
-        </header>
-        <main>
-            <section id="timer-box">
-                <p id="timer"></p>
-                
+            <button>Settings</button>
+            <div id="options">
                 <div id="option-select">
                     <div class="space-between">
                         <label>Pomodoro Time:</label>
@@ -54,6 +51,19 @@
                 <div id="option-submit">
                     <button name="submit">Submit</button>
                 </div>
+            </div>
+        </header>
+        <main>
+            <section id="timer-box">
+                <p id="timer">25:00</p>
+                
+                <div id="controls">
+                    <button id="begin">Begin</button>
+                    <button id="skipback"></button>
+                    <button id="start-stop"></button>
+                    <button id="skipforward"></button>
+                </div>
+                
             </section>
             
             <section id="progress-box">
