@@ -48,6 +48,17 @@ button {
     background-color: antiquewhite;
 }
 
+#settings-center h2 {
+    margin: 2%;
+    font-size: 160%;
+}
+
+.space-between {
+    display: flex;
+    justify-content: space-between;
+    margin: 1% 2%;
+}
+
 .close-settings {
     background-color: rgba(61, 51, 38, 0.405);
 }
