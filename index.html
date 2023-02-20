@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Pomodoro Timer</title>
+        <link rel="stylesheet" href="./assets/reset.css">
+        <link rel="stylesheet" href="./assets/style.css">
+    </head>
+    <body>
+        <header>
+            <h1>Pomodoro Timer</h1>
+        </header>
+        <main>
+            <section id="timer-box">
+                <p id="timer"></p>
+                
+                <div id="option-select">
+                    <label>Pomodoro Time:</label>
+                    <select>
+                        <option value="15:00">15:00</option>
+                        <option value="20:00">20:00</option>
+                        <option selected value="25:00">25:00</option>
+                        <option value="30:00">30:00</option>
+                        <option value="35:00">35:00</option>
+                        <option value="40:00">40:00</option>
+                        <option value="45:00">45:00</option>
+                        <option value="50:00">50:00</option>
+                    </select>
+                            
+                    <label>Short Break Time:</label>
+                    <select>
+                        <option selected value="05:00">5:00</option>
+                        <option value="10:00">10:00</option>
+                        <option value="15:00">15:00</option> 
+                    </select>
+                            
+                    <label>Long Break Time:</label>
+                    <select>
+                        <option value="15:00">15:00</option>
+                        <option selected value="20:00">20:00</option>
+                        <option value="25:00">25:00</option>
+                        <option value="30:00">30:00</option>
+                    </select>
+                </div>
+                
+                <div id="option-submit">
+                    <button name="submit">Submit</button>
+                </div>
+            </section>
+            
+            <section id="progress-box">
+                <div class="pomo box">Pomodoro</div>
+                <div class="short box">Short Break</div>
+                <div class="pomo box">Pomodoro</div>
+                <div class="short box">Short Break</div>
+                <div class="pomo box">Pomodoro</div>
+                <div class="short box">Short Break</div>
+                <div class="pomo box">Pomodoro</div>
+                <div class="long box">Long Break</div>
+            </section>
+        </main>
+        <footer>
+            <button>Reset</button>
+        </footer>
+
+        <script src="./assets/main.js"></script>
+    </body>
+</html>
