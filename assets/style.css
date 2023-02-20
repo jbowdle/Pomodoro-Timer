@@ -25,7 +25,9 @@ header {
     padding: 20px 0px 20px 0px;
 }
 
-button {
+/* Styles only begin and reset buttons */
+#begin,
+#reset {
     background-color: var(--button);
     border-top: 3px inset var(--button-border-top);
     border-left: 3px inset var(--button-border-top);
@@ -93,9 +95,17 @@ footer button {
     padding: 2%;
 }
 
-#skipback,
+img {
+    max-width: 100%;
+}
+
+.img-container {
+    max-width: 50px;
+}
+
+#skip-back,
 #start-stop,
-#skipforward {
+#skip-forward {
     display: none;
 }
 
