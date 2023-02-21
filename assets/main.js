@@ -1,3 +1,4 @@
+// TODO: add cycle tracker and adjust selectChange function based on which cycle the pomodoro is in
 const settingsBtn = document.querySelector("#settings-btn");
 const settings = document.querySelector("#settings");
 const closeSettings = document.querySelectorAll(".close-settings");
@@ -7,11 +8,53 @@ const startStop = document.querySelector("#start-stop");
 const skipForward = document.querySelector("#skip-forward");
 const controls = document.querySelector("#controls");
 const begin = document.querySelector("#begin");
+const pomoSelect = document.querySelector("#pomo-select");
+const shortSelect = document.querySelector("#short-select");
+const longSelect = document.querySelector("#long-select");
+
+let pomoMinutes = pomoSelect.value.slice(0, pomoSelect.value.indexOf(":"));
+let pomoSeconds = 00; 
+let shortMinutes = shortSelect.value.slice(0, shortSelect.value.indexOf(":"));;
+let shortSeconds = 00;
+let longMinutes = longSelect.value.slice(0, longSelect.value.indexOf(":"));;
+let longSeconds = 00;
 
 let minutes = 25;
 let seconds = 00;
 
-let buttonStatus = false;
+
+// For some reason, the following commented code block doesn't work because it uses a function with parameters in an addEventListener.
+// pomoMinutes is changed locally, but that change isn't reflected globally?
+// https://teamtreehouse.com/community/problem-updating-a-global-variable-using-event-listeners-functions
+// look into: * prototype.bind   * currying functions
+
+// const selectChange = function(selectType, minuteType, secondType) {
+//     minuteType = selectType.value.slice(0, selectType.value.indexOf(":"));
+//     secondType = 00;
+// }
+// pomoSelect.addEventListener("change", function(){selectChange(pomoSelect, pomoMinutes, pomoSeconds)});
+
+pomoSelect.addEventListener("change", function() {
+    pomoMinutes = pomoSelect.value.slice(0, pomoSelect.value.indexOf(":"));
+    pomoSeconds = 00;    
+});
+
+shortSelect.addEventListener("change", function() {
+    shortMinutes = shortSelect.value.slice(0, shortSelect.value.indexOf(":"));
+    shortSeconds = 00;    
+});
+
+longSelect.addEventListener("change", function() {
+    longMinutes = longSelect.value.slice(0, longSelect.value.indexOf(":"));
+    longSeconds = 00;    
+});
+
+// debug function
+const debugFunc = function() {
+    console.log(pomoMinutes);
+    console.log(shortMinutes);
+    console.log(longMinutes);
+}
 
 timer.textContent = `${minutes}:0${seconds}`;
 
@@ -69,4 +112,4 @@ const startTimer = function() {
     skipForward.style.display = "inline";
 }
 
-begin.addEventListener("click", startTimer)
+begin.addEventListener("click", startTimer);
