@@ -1,4 +1,4 @@
-// TODO: add cycle tracker and adjust selectChange function based on which cycle the pomodoro is in
+// TODO: 
 const settingsBtn = document.querySelector("#settings-btn");
 const settings = document.querySelector("#settings");
 const closeSettings = document.querySelectorAll(".close-settings");
@@ -99,6 +99,24 @@ const updateTimer = function() {
 }
 
 let isTimerActive = false;
+let skipForwardActive = false;
+let skipBackActive = false;
+
+// Updates minutes based on the current cycle
+const cycleTracker = function() {
+    if ((currentCycle % 2) === 0) {
+        minutes = pomoMinutes;
+        seconds = pomoSeconds;
+    } else if ((currentCycle === 1) ||
+        (currentCycle === 3) ||
+        (currentCycle === 5)) {
+        minutes = shortMinutes;
+        seconds = shortSeconds;
+    } else {
+        minutes = longMinutes;
+        seconds = longSeconds;
+    }
+}
 
 function countdown() {
     timerInterval = setInterval(function() {
@@ -114,6 +132,33 @@ function countdown() {
             if (isTimerActive === false) {
                 clearInterval(timerInterval);
             }   
+
+            if (skipForwardActive) {
+                clearInterval(timerInterval);
+                skipForwardActive = false;
+                isTimerActive = false;
+                startStopImg.setAttribute("src", "./assets/icons/play.png");
+                 if (currentCycle < 7) {
+                    currentCycle++;
+                } else {
+                    currentCycle = 0;
+                }
+                cycleTracker();
+            }
+
+            if (skipBackActive) {
+                clearInterval(timerInterval);
+                skipBackActive = false;
+                isTimerActive = false;
+                startStopImg.setAttribute("src", "./assets/icons/play.png");
+                 if (currentCycle === 0) {
+                    currentCycle = 7
+                } else {
+                    currentCycle--;
+                }
+                cycleTracker();
+            }
+
             updateTimer();
         }, 50);
         
@@ -121,6 +166,7 @@ function countdown() {
         if (minutes === 0 && seconds === 0) {
             clearInterval(timerInterval);
             isTimerActive = false;
+            startStopImg.setAttribute("src", "./assets/icons/play.png");
             if (currentCycle < 7) {
                 currentCycle++;
             } else {
@@ -141,22 +187,6 @@ const startTimer = function() {
     skipForward.style.display = "inline";
 }
 
-// Updates minutes based on the current cycle
-const cycleTracker = function() {
-    if ((currentCycle % 2) === 0) {
-        minutes = pomoMinutes;
-        seconds = pomoSeconds;
-    } else if ((currentCycle === 1) ||
-        (currentCycle === 3) ||
-        (currentCycle === 5)) {
-        minutes = shortMinutes;
-        seconds = shortSeconds;
-    } else {
-        minutes = longMinutes;
-        seconds = longSeconds;
-    }
-}
-
 begin.addEventListener("click", startTimer);
 
 startStop.addEventListener("click", function() {
@@ -170,4 +200,12 @@ startStop.addEventListener("click", function() {
     }
     // debug
     console.log(isTimerActive);
+})
+
+skipForward.addEventListener("click", function() {
+    skipForwardActive = true;
+})
+
+skipBack.addEventListener("click", function() {
+    skipBackActive = true;
 })
