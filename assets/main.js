@@ -12,16 +12,22 @@ const pomoSelect = document.querySelector("#pomo-select");
 const shortSelect = document.querySelector("#short-select");
 const longSelect = document.querySelector("#long-select");
 
+// Variables are used to store what each cycle's time is
 let pomoMinutes = pomoSelect.value.slice(0, pomoSelect.value.indexOf(":"));
 let pomoSeconds = 00; 
-let shortMinutes = shortSelect.value.slice(0, shortSelect.value.indexOf(":"));;
+let shortMinutes = shortSelect.value.slice(0, shortSelect.value.indexOf(":"));
 let shortSeconds = 00;
-let longMinutes = longSelect.value.slice(0, longSelect.value.indexOf(":"));;
+let longMinutes = longSelect.value.slice(0, longSelect.value.indexOf(":"));
 let longSeconds = 00;
 
+// These hold the current value for the timer
 let minutes = 25;
 let seconds = 00;
 
+// Tracks the cycle
+// Even numbers = pomodoro, 1 3 and 5 = short break, 7 = long break
+// countdown function updates this variable and rolls it over after 7
+let currentCycle = 0;
 
 // For some reason, the following commented code block doesn't work because it uses a function with parameters in an addEventListener.
 // pomoMinutes is changed locally, but that change isn't reflected globally?
@@ -76,30 +82,42 @@ const closeSettingsEvent = function() {
 
 closeSettingsEvent();
 
+const updateTimer = function() {
+    // Updates the timer paragraph, ensures that it looks proper
+    if ((seconds < 10) && (minutes > 10)) {
+        timer.textContent =  `${minutes}:0${seconds}`;
+    } else if ((seconds < 10) && (minutes < 10)) {
+        timer.textContent =  `0${minutes}:0${seconds}`;
+    } else if ((seconds >= 10) && (minutes < 10)) {
+        timer.textContent =  `0${minutes}:${seconds}`;
+    } else {
+        timer.textContent =  `${minutes}:${seconds}`;
+    }
+}
+
 function countdown() {
+    cycleTracker();
     playTimer = setInterval(function() {
         // Rollover minutes once seconds hit zero
         if (seconds === 0) {
-             minutes--;
+            minutes--;
             seconds = 60;
         }  
         // Reduce seconds by one every interval
         seconds--;
             
-        // Updates the timer paragraph, ensures that it looks proper
-        if ((seconds < 10) && (minutes > 10)) {
-            timer.textContent =  `${minutes}:0${seconds}`;
-        } else if ((seconds < 10) && (minutes < 10)) {
-            timer.textContent =  `0${minutes}:0${seconds}`;
-        } else if ((seconds >= 10) && (minutes < 10)) {
-            timer.textContent =  `0${minutes}:${seconds}`;
-        } else {
-            timer.textContent =  `${minutes}:${seconds}`;
-        }
+        updateTimer();
 
-        // Stops timer at 00:00
+        // Stops timer at 00:00, increases cycle by one, change minutes and seconds using cycleTracker and updateTimer
         if (minutes === 0 && seconds === 0) {
             clearInterval(playTimer);
+            if (currentCycle < 7) {
+                currentCycle++;
+            } else {
+                currentCycle = 0;
+            }
+            cycleTracker();
+            updateTimer();
         }
     }, 1000);
 }
@@ -110,6 +128,22 @@ const startTimer = function() {
     skipBack.style.display = "inline";
     startStop.style.display = "inline";
     skipForward.style.display = "inline";
+}
+
+// Updates minutes based on the current cycle
+const cycleTracker = function() {
+    if ((currentCycle % 2) === 0) {
+        minutes = pomoMinutes;
+        seconds = pomoSeconds;
+    } else if ((currentCycle === 1) ||
+        (currentCycle === 3) ||
+        (currentCycle === 5)) {
+        minutes = shortMinutes;
+        seconds = shortSeconds;
+    } else {
+        minutes = longMinutes;
+        seconds = longSeconds;
+    }
 }
 
 begin.addEventListener("click", startTimer);
