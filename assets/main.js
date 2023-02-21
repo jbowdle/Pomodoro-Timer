@@ -11,6 +11,9 @@ const begin = document.querySelector("#begin");
 const pomoSelect = document.querySelector("#pomo-select");
 const shortSelect = document.querySelector("#short-select");
 const longSelect = document.querySelector("#long-select");
+const skipBackImg = document.querySelector("#skip-back-img");
+const startStopImg = document.querySelector("#start-stop-img");
+const skipForwardImg = document.querySelector("#skip-forward-img");
 
 // Variables are used to store what each cycle's time is
 let pomoMinutes = pomoSelect.value.slice(0, pomoSelect.value.indexOf(":"));
@@ -95,9 +98,10 @@ const updateTimer = function() {
     }
 }
 
+let isTimerActive = false;
+
 function countdown() {
-    cycleTracker();
-    playTimer = setInterval(function() {
+    timerInterval = setInterval(function() {
         // Rollover minutes once seconds hit zero
         if (seconds === 0) {
             minutes--;
@@ -105,12 +109,18 @@ function countdown() {
         }  
         // Reduce seconds by one every interval
         seconds--;
-            
-        updateTimer();
-
+        // This is on a separat, shorter interval to avoid a lagging effect
+        stopTimer = setInterval (function() {
+            if (isTimerActive === false) {
+                clearInterval(timerInterval);
+            }   
+            updateTimer();
+        }, 50);
+        
         // Stops timer at 00:00, increases cycle by one, change minutes and seconds using cycleTracker and updateTimer
         if (minutes === 0 && seconds === 0) {
-            clearInterval(playTimer);
+            clearInterval(timerInterval);
+            isTimerActive = false;
             if (currentCycle < 7) {
                 currentCycle++;
             } else {
@@ -124,6 +134,7 @@ function countdown() {
 
 const startTimer = function() {
     countdown();
+    isTimerActive = true;
     begin.style.display = "none";
     skipBack.style.display = "inline";
     startStop.style.display = "inline";
@@ -147,3 +158,16 @@ const cycleTracker = function() {
 }
 
 begin.addEventListener("click", startTimer);
+
+startStop.addEventListener("click", function() {
+    if (isTimerActive === false) {
+        isTimerActive = true;
+        countdown();
+        startStopImg.setAttribute("src", "./assets/icons/pause.png");
+    } else {
+        isTimerActive = false;
+        startStopImg.setAttribute("src", "./assets/icons/play.png");
+    }
+    // debug
+    console.log(isTimerActive);
+})
