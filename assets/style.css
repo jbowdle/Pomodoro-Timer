@@ -124,7 +124,7 @@ img {
 }
 
 /* Highlight classes: */
-/* .pomo {
+.pomo {
     background-color: var(--pomo-color);
 }
 
@@ -134,4 +134,4 @@ img {
 
 .long {
     background-color: var(--long-color);
-} */
+}

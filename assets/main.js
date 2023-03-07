@@ -1,4 +1,7 @@
-// TODO: 
+// TODO: Write clean progress bar update function
+// https://www.reddit.com/r/learnjavascript/comments/9xn88d/question_classlistadd_to_array_elements_generated/
+// https://developer.mozilla.org/en-US/docs/Web/API/Element/classList
+// https://css-tricks.com/forums/topic/classlist-in-js-not-working/
 const settingsBtn = document.querySelector("#settings-btn");
 const settings = document.querySelector("#settings");
 const closeSettings = document.querySelectorAll(".close-settings");
@@ -14,6 +17,7 @@ const longSelect = document.querySelector("#long-select");
 const skipBackImg = document.querySelector("#skip-back-img");
 const startStopImg = document.querySelector("#start-stop-img");
 const skipForwardImg = document.querySelector("#skip-forward-img");
+const boxes = document.querySelectorAll(".box");
 
 // Variables are used to store what each cycle's time is
 let pomoMinutes = pomoSelect.value.slice(0, pomoSelect.value.indexOf(":"));
@@ -116,6 +120,30 @@ const cycleTracker = function() {
         minutes = longMinutes;
         seconds = longSeconds;
     }
+
+    // Adds highlight class to current section in progress bar, removes highlight from
+    // previous box
+    for (let i = 0; i < boxes.length; i++) {
+        let box = boxes[i]
+        if (currentCycle === i) {
+            // TODO: implement this without nested if statements
+            if ((currentCycle % 2) === 0) {
+                box.classList.add("pomo");
+            } else if ((currentCycle === 1) ||
+                (currentCycle === 3) ||
+                (currentCycle === 5)) {
+                box.classList.add("short");
+            } else {
+                box.classList.add("long");
+            }
+        } else if (box.classList.contains("pomo")) {
+            box.classList.remove("pomo");
+        } else if (box.classList.contains("short")) {
+            box.classList.remove("short");
+        } else if (box.classList.contains("long")) {
+            box.classList.remove("long");
+        }
+    }
 }
 
 function countdown() {
@@ -179,6 +207,7 @@ function countdown() {
 }
 
 const startTimer = function() {
+    cycleTracker();
     countdown();
     isTimerActive = true;
     begin.style.display = "none";
