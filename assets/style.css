@@ -16,8 +16,11 @@ body {
 }
 
 main {
-    max-width: 95%;
+    max-width: 800px;
     margin: 0 auto;
+    display: grid;
+    grid-template-rows: 2fr 1fr;
+    justify-items: center;
 }
 
 header {
@@ -76,6 +79,7 @@ footer button {
 }
 
 #timer-box {
+    width: 95%;
     border: 1px solid black;
     margin: 10% 0% 5%;
     text-align: center;
@@ -86,13 +90,27 @@ footer button {
 }
 
 #controls {
-    display: flex;
-    justify-content: space-around;
+    display: grid;
+    grid-template-areas: "left center right";
+    justify-items: center;
+}
+
+#skip-back {
+    grid-area: left;
+}
+
+#skip-forward {
+    grid-area: right;
+}
+
+#img-container {
+    grid-area: center;
 }
 
 #begin {
     margin: 1% 0%;
     padding: 2%;
+    grid-area: center;
 }
 
 img {
@@ -110,6 +128,7 @@ img {
 }
 
 #progress-box {
+    width: 95%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
