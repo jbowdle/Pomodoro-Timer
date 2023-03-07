@@ -1,7 +1,3 @@
-// TODO: Write clean progress bar update function
-// https://www.reddit.com/r/learnjavascript/comments/9xn88d/question_classlistadd_to_array_elements_generated/
-// https://developer.mozilla.org/en-US/docs/Web/API/Element/classList
-// https://css-tricks.com/forums/topic/classlist-in-js-not-working/
 const settingsBtn = document.querySelector("#settings-btn");
 const settings = document.querySelector("#settings");
 const closeSettings = document.querySelectorAll(".close-settings");
@@ -36,62 +32,9 @@ let seconds = 00;
 // countdown function updates this variable and rolls it over after 7
 let currentCycle = 0;
 
-// For some reason, the following commented code block doesn't work because it uses a function with parameters in an addEventListener.
-// pomoMinutes is changed locally, but that change isn't reflected globally?
-// https://teamtreehouse.com/community/problem-updating-a-global-variable-using-event-listeners-functions
-// look into: * prototype.bind   * currying functions
-
-// const selectChange = function(selectType, minuteType, secondType) {
-//     minuteType = selectType.value.slice(0, selectType.value.indexOf(":"));
-//     secondType = 00;
-// }
-// pomoSelect.addEventListener("change", function(){selectChange(pomoSelect, pomoMinutes, pomoSeconds)});
-
-pomoSelect.addEventListener("change", function() {
-    pomoMinutes = pomoSelect.value.slice(0, pomoSelect.value.indexOf(":"));
-    pomoSeconds = 00;    
-});
-
-shortSelect.addEventListener("change", function() {
-    shortMinutes = shortSelect.value.slice(0, shortSelect.value.indexOf(":"));
-    shortSeconds = 00;    
-});
-
-longSelect.addEventListener("change", function() {
-    longMinutes = longSelect.value.slice(0, longSelect.value.indexOf(":"));
-    longSeconds = 00;    
-});
-
-// debug function
-const debugFunc = function() {
-    console.log(pomoMinutes);
-    console.log(shortMinutes);
-    console.log(longMinutes);
-}
-
-timer.textContent = `${minutes}:0${seconds}`;
-
-// Opens settings
-settingsBtn.addEventListener(
-    'click',
-    (e) => {settings.style.display = "grid";}
-)
-
-// Closes settings by clicking outside of the window
-const closeSettingsEvent = function() {
-    for (let i = 0; i < closeSettings.length; i++) {
-        closeSettings[i].addEventListener(
-            "click",
-            (e) => settings.style.display = "none"
-        )
-    }
-}
-
-closeSettingsEvent();
-
 const updateTimer = function() {
     // Updates the timer paragraph, ensures that it looks proper
-    if ((seconds < 10) && (minutes > 10)) {
+    if ((seconds < 10) && (minutes >= 10)) {
         timer.textContent =  `${minutes}:0${seconds}`;
     } else if ((seconds < 10) && (minutes < 10)) {
         timer.textContent =  `0${minutes}:0${seconds}`;
@@ -101,10 +44,6 @@ const updateTimer = function() {
         timer.textContent =  `${minutes}:${seconds}`;
     }
 }
-
-let isTimerActive = false;
-let skipForwardActive = false;
-let skipBackActive = false;
 
 // Updates minutes based on the current cycle
 const cycleTracker = function() {
@@ -146,6 +85,12 @@ const cycleTracker = function() {
     }
 }
 
+// is-active variables are used by the countdown function to make the controls functional
+let isTimerActive = false;
+let skipForwardActive = false;
+let skipBackActive = false;
+
+// This function runs the timer
 function countdown() {
     timerInterval = setInterval(function() {
         // Rollover minutes once seconds hit zero
@@ -155,12 +100,15 @@ function countdown() {
         }  
         // Reduce seconds by one every interval
         seconds--;
-        // This is on a separat, shorter interval to avoid a lagging effect
+
+        // This interval watches for changes in the is-active variables and makes the controls functional.
+        // It is on a separate, shorter interval to avoid a laggy effect.
         stopTimer = setInterval (function() {
             if (isTimerActive === false) {
                 clearInterval(timerInterval);
             }   
 
+            // Skips forward one cycle and resets the is-active variables
             if (skipForwardActive) {
                 clearInterval(timerInterval);
                 skipForwardActive = false;
@@ -174,6 +122,7 @@ function countdown() {
                 cycleTracker();
             }
 
+            // Skips back one cycle and resets the is-active variables
             if (skipBackActive) {
                 clearInterval(timerInterval);
                 skipBackActive = false;
@@ -206,6 +155,7 @@ function countdown() {
     }, 1000);
 }
 
+// When the begin button is clicked, this starts the timer, highlights the cycle in the progress bar, removes the begin button, and sets up the timer controls.
 const startTimer = function() {
     cycleTracker();
     countdown();
@@ -216,25 +166,63 @@ const startTimer = function() {
     skipForward.style.display = "inline";
 }
 
-begin.addEventListener("click", startTimer);
+// This holds event listeners and statements to be used when the page loads.
+const init = function() {
+    timer.textContent = `${minutes}:0${seconds}`;
 
-startStop.addEventListener("click", function() {
-    if (isTimerActive === false) {
-        isTimerActive = true;
-        countdown();
-        startStopImg.setAttribute("src", "./assets/icons/pause.png");
-    } else {
-        isTimerActive = false;
-        startStopImg.setAttribute("src", "./assets/icons/play.png");
+    // Opens settings
+    settingsBtn.addEventListener(
+        'click',
+        (e) => {settings.style.display = "grid";}
+    );
+
+    // Closes settings by clicking outside of the window
+    for (let i = 0; i < closeSettings.length; i++) {
+        closeSettings[i].addEventListener(
+            "click",
+            (e) => settings.style.display = "none"
+        )
     }
-    // debug
-    console.log(isTimerActive);
-})
 
-skipForward.addEventListener("click", function() {
-    skipForwardActive = true;
-})
+    // Next three listen for changes in the settings and update their cycle times accordingly
+    pomoSelect.addEventListener("change", function() {
+        pomoMinutes = pomoSelect.value.slice(0, pomoSelect.value.indexOf(":"));
+        pomoSeconds = 00;    
+    });
+    
+    shortSelect.addEventListener("change", function() {
+        shortMinutes = shortSelect.value.slice(0, shortSelect.value.indexOf(":"));
+        shortSeconds = 00;    
+    });
+    
+    longSelect.addEventListener("change", function() {
+        longMinutes = longSelect.value.slice(0, longSelect.value.indexOf(":"));
+        longSeconds = 00;    
+    });
 
-skipBack.addEventListener("click", function() {
-    skipBackActive = true;
-})
+    // Starts the first cycle
+    begin.addEventListener("click", startTimer);
+
+    // Pauses current cycle
+    startStop.addEventListener("click", function() {
+        if (isTimerActive === false) {
+            isTimerActive = true;
+            countdown();
+            startStopImg.setAttribute("src", "./assets/icons/pause.png");
+        } else {
+            isTimerActive = false;
+            startStopImg.setAttribute("src", "./assets/icons/play.png");
+        }
+    });
+
+    // Next two event listeners skip to the next or the previous cycle
+    skipForward.addEventListener("click", function() {
+        skipForwardActive = true;
+    });
+
+    skipBack.addEventListener("click", function() {
+        skipBackActive = true;
+    });
+}
+
+init();
