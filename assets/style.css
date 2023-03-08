@@ -1,18 +1,24 @@
 /* Color storage */
 :root {
-    --bg-color: rgb(0, 0, 0);
-    --box: rgb(198, 192, 192);
-    --pomo-color: rgb(245, 144, 201);
-    --short-color: rgb(132, 212, 235);
-    --long-color: rgb(129, 233, 164);
+    --bg: rgb(76, 109, 111);
+    --box: rgb(108, 108, 108);
+    --box-border: rgb(231, 231, 231);
+    --box-text: rgb(255, 255, 255);
+    --pomo-color: rgb(90, 0, 57);
+    --pomo-border: rgb(255, 80, 191);
+    --short-color: rgb(43, 0, 69);
+    --short-border: rgb(157, 0, 255);
+    --long-color: rgb(0, 43, 83);
+    --long-border: rgb(0, 132, 255);
     --button: rgb(222, 197, 197);
-    --button-border-bottom: rgb(117, 36, 36);;
-    --button-border-top: rgb(255, 196, 196);;
+    --button-border-bottom: rgb(117, 36, 36);
+    --button-border-top: rgb(255, 196, 196);
 }
 
 body {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 16px;
+    background-color: var(--bg);
 }
 
 main {
@@ -135,9 +141,13 @@ img {
 }
 
 .box {
-    border: 1px solid black;
+    border: 3px solid var(--box-border);
+    border-radius: 5px;
     background-color: var(--box);
-    text-align: center;
+    color: var(--box-text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 5% 0%;  
     margin: 1%; 
 }
@@ -145,12 +155,15 @@ img {
 /* Highlight classes: */
 .pomo {
     background-color: var(--pomo-color);
+    border-color: var(--pomo-border);
 }
 
 .short {
     background-color: var(--short-color);
+    border-color: var(--short-border);
 }
 
 .long {
     background-color: var(--long-color);
+    border-color: var(--long-border);
 }
