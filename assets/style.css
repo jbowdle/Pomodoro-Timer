@@ -1,6 +1,7 @@
 /* Color storage */
 :root {
     --bg: rgb(76, 109, 111);
+    --timer-box: rgb(146, 168, 168); 
     --box: rgb(108, 108, 108);
     --box-border: rgb(231, 231, 231);
     --box-text: rgb(255, 255, 255);
@@ -34,16 +35,6 @@ header {
     padding: 20px 0px 20px 0px;
 }
 
-/* Styles only begin and reset buttons */
-#begin,
-#reset {
-    background-color: var(--button);
-    border-top: 3px inset var(--button-border-top);
-    border-left: 3px inset var(--button-border-top);
-    border-right: 3px inset var(--button-border-bottom);
-    border-bottom: 3px inset var(--button-border-bottom);
-}
-
 #settings {
     display: none;
     grid-template-columns: 1fr 2fr 1fr;
@@ -53,6 +44,10 @@ header {
     top: 0;
     z-index: 100;
     background-color: rgba(250, 235, 215, 0);
+}
+
+#settings-btn {
+    max-width: 50px;
 }
 
 #settings-center {
@@ -85,14 +80,18 @@ footer button {
 }
 
 #timer-box {
-    width: 95%;
+    width: 80%;
+    height: 30vh;
+    background-color: var(--timer-box);
     border: 1px solid black;
+    border-radius: 10px;
     margin: 10% 0% 5%;
     text-align: center;
 }
 
 #timer-box p {
     font-size: 500%;
+    padding: 3vh;
 }
 
 #controls {
@@ -114,8 +113,15 @@ footer button {
 }
 
 #begin {
+    background-color: var(--button);
+    border-top: 3px inset var(--button-border-top);
+    border-left: 3px inset var(--button-border-top);
+    border-right: 3px inset var(--button-border-bottom);
+    border-bottom: 3px inset var(--button-border-bottom);
+    border-radius: 5px;
+    font-size: 140%;
     margin: 1% 0%;
-    padding: 2%;
+    padding: 4%;
     grid-area: center;
 }
 
@@ -166,4 +172,10 @@ img {
 .long {
     background-color: var(--long-color);
     border-color: var(--long-border);
+}
+
+@media (min-width: 600px) {
+    body {
+        font-size: 20px;
+    }
 }
